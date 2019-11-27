@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @Author zhanghai
@@ -30,6 +31,42 @@ public class MybatisTest {
         UserMapper mapper = session.getMapper(UserMapper.class);
         User user = mapper.findById(1);
         System.out.println(user);
+    }
+
+    @Test
+    public void add(){
+        SqlSession session = factory.openSession(true);
+        UserMapper mapper = session.getMapper(UserMapper.class);
+        User user = new User();
+        user.setUsername("tom4");
+        user.setPassword("tom4");
+        mapper.add(user);
+    }
+
+    @Test
+    public void deleteById(){
+        SqlSession session = factory.openSession(true);
+        UserMapper mapper = session.getMapper(UserMapper.class);
+        mapper.deleteById(6);
+    }
+
+    @Test
+    public void update(){
+        SqlSession session = factory.openSession(true);
+        UserMapper mapper = session.getMapper(UserMapper.class);
+        User user = new User();
+        user.setId(5);
+        user.setUsername("jack");
+        user.setPassword("jack");
+        mapper.update(user);
+    }
+
+    @Test
+    public void findByLikeName(){
+        SqlSession session = factory.openSession(true);
+        UserMapper mapper = session.getMapper(UserMapper.class);
+        List<User> users = mapper.findByLikeName("o");
+        System.out.println(users);
     }
 
 }

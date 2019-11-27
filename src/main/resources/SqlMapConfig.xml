@@ -7,7 +7,7 @@
     <properties resource="db.properties"/>
     <!-- 配置别名  -->
     <typeAliases>
-        <typeAlias type="com.gh.entity.User" alias="user"/>
+        <package name="com.gh.entity"/>
     </typeAliases>
     <!-- 和spring整合后 mybatis配置将废除-->
     <environments default="mybatis">

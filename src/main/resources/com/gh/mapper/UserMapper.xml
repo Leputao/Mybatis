@@ -2,12 +2,20 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper 映射文件的开端  namespace  命名空间
+如果使用mapper动态代理  那么需要mapper接口的全路径名  -->
 <mapper namespace="com.gh.mapper.UserMapper">
-
+<!--  select  查询标签 表示该方法用于查询
+        id  如果使用动态代理  与接口中的方法名  相对应
+        resultType  结果类型  应该是类型的全路径：com.gh.entity.User  这里我使用了别名
+        #{}   占位符号
+ -->
     <select id="findById" resultType="User" >
         select * from user where id = #{id}
     </select>
-
+<!--  insert  新增标签   表示该方法用于新增对象
+        parameterType   规定参数类型  如果参数为简单数据类型  就不需要说明
+ -->
     <insert id="add" parameterType="User" >
         insert into user values (null,#{username},#{password})
     </insert>
@@ -22,6 +30,33 @@
 
     <select id="findByLikeName" resultType="User" >
         select * from user where username like "%${value}%"
+    </select>
+    
+    <resultMap id="userAndScore" type="User">
+        <id column="uid" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <!--association  一对一查询使用
+            property    表明是哪一个对象  需要深入显示
+            javaType   表明是什么类型   也可以不表明  因为User类中已经申请过了 -->
+<!--        <association property="score" javaType="Score">-->
+<!--            <id column="id" property="id"/>-->
+<!--            <result column="score" property="score"/>-->
+<!--            <result column="u_id" property="u_id"/>-->
+<!--        </association>-->
+
+        <!--  collection  一对多查询使用
+              ofType   表示  list集合中放的什么类型  要是pojo类中给出了泛型  就可以省略
+         -->
+        <collection property="scores" javaType="java.util.List" ofType="Score">
+            <id column="sid" property="id"/>
+            <result column="score" property="score"/>
+            <result column="u_id" property="u_id"/>
+        </collection>
+    </resultMap>
+
+    <select id="findUserAndScoreById" resultMap="userAndScore">
+        select *,user.id as uid,score.id as sid from user,score where user.id = score.u_id and user.id = #{id}
     </select>
 
 </mapper>

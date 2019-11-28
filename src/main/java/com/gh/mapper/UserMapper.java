@@ -19,4 +19,6 @@ public interface UserMapper {
     void update(User user);
 
     List<User> findByLikeName(String username);
+
+    List<User> findUserAndScoreById(Integer id);
 }

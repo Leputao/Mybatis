@@ -3,10 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <!-- 配置文件 -->
+    <!-- 加载配置文件 -->
     <properties resource="db.properties"/>
     <!-- 配置别名  -->
     <typeAliases>
+        <!-- 整个包下的类  首字母大写小写皆可的别名  -->
         <package name="com.gh.entity"/>
     </typeAliases>
     <!-- 和spring整合后 mybatis配置将废除-->
@@ -14,7 +15,7 @@
         <environment id="mybatis">
             <!-- 使用jdbc事务管理-->
             <transactionManager type="JDBC" />
-            <!-- 数据库连接池-->
+            <!-- 数据库连接池  POOLED使用连接池   UNPOOLED不使用连接池-->
             <dataSource type="POOLED">
                 <property name="driver" value="${jdbc.driver}" />
                 <property name="url" value="${jdbc.url}" />
@@ -25,6 +26,18 @@
     </environments>
 
     <mappers>
+        <!-- 配置映射  有三种
+          1、通过resource方法一次加载一个映射文件
+            <mapper resource="com/gh/mapper/UserMapper.xml"/>
+          2、通过mapper接口加载单个映射配置文件
+             遵循一定的规范：需要将mapper接口类名和mapper.xml映射文件名称保持一致，且在一个目录中；
+             上边规范的前提是：使用的是mapper代理方法;
+              <mapper class="com.gh.mapper.UserMapper"/>
+          3、批量加载映射配置文件,mybatis自动扫描包下面的mapper接口进行加载
+            遵循一定的规范：需要将mapper接口类名和mapper.xml映射文件名称保持一致，且在一个目录中；
+            上边规范的前提是：使用的是mapper代理方法;
+             <package name="com.gh.mapper"/>
+        -->
         <package name="com.gh.mapper"/>
     </mappers>
 

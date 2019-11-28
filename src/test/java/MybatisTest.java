@@ -69,4 +69,14 @@ public class MybatisTest {
         System.out.println(users);
     }
 
+    @Test
+    public void findUserAndScoreById(){
+        SqlSession session = factory.openSession(true);
+        UserMapper mapper = session.getMapper(UserMapper.class);
+        List<User> userAndScoreById = mapper.findUserAndScoreById(1);
+        for (User u :userAndScoreById) {
+            System.out.println(u);
+        }
+    }
+
 }

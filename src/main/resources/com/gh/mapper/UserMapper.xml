@@ -55,6 +55,7 @@
         </collection>
     </resultMap>
 
+    <!-- 多表查询  父表与子表  如果有相同字段名  就要取别名  -->
     <select id="findUserAndScoreById" resultMap="userAndScore">
         select *,user.id as uid,score.id as sid from user,score where user.id = score.u_id and user.id = #{id}
     </select>
